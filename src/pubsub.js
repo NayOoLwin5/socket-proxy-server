@@ -1,4 +1,3 @@
-
 const mqtt = require('mqtt');
 require('dotenv').config();
 
@@ -7,10 +6,6 @@ const client = mqtt.connect(process.env.HIVEMQ_BROKER);
 client.on('connect', () => {
     console.log('Connected to HiveMQ broker');
 });
-
-function publishMessage(topic, message) {
-    client.publish(topic, message);
-}
 
 function subscribeToTopic(topic, callback) {
     client.subscribe(topic, () => {
@@ -22,4 +17,4 @@ function subscribeToTopic(topic, callback) {
     });
 }
 
-module.exports = { publishMessage, subscribeToTopic };
+module.exports = { subscribeToTopic };

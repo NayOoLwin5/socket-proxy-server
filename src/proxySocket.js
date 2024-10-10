@@ -1,6 +1,6 @@
 const Pusher = require('pusher');
 const { watchChanges, ensureTable } = require('./rethinkdb');
-const { publishMessage, subscribeToTopic } = require('./pubsub');
+const { subscribeToTopic } = require('./pubsub');
 
 require('dotenv').config();
 
@@ -27,9 +27,16 @@ const emitDataToSoketi = (channel, event, data) => {
       });
   }; 
 
+const mqttTopic = 'test/topic'; 
+subscribeToTopic(mqttTopic, (topic, message) => {
+    console.log(`Received message from MQTT topic ${topic}:`, message);
+    // Emit the MQTT message to Soketi
+    emitDataToSoketi('my-channel', 'message', { topic, message });
+});
+
 ensureTable('messages').then(() => {
     watchChanges('messages', (change) => {
         console.log('Change detected in messages table:', change);
-        emitDataToSoketi('my-channel', 'db-change', change);
+        emitDataToSoketi('my-channel', 'change', change);
     });
 });

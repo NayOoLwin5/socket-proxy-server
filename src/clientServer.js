@@ -11,7 +11,7 @@ const pusherClient = new PusherClient(process.env.PUSHER_KEY, {
 
 const channel = pusherClient.subscribe('my-channel');
 
-channel.bind('db-change', (data) => {
+channel.bind('change', (data) => {
     console.log('Received db-change event:', data);
 });
 
