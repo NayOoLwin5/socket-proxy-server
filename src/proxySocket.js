@@ -27,11 +27,11 @@ const emitDataToSoketi = (channel, event, data) => {
       });
   }; 
 
-const mqttTopic = 'test/topic'; 
+const mqttTopic = 'test/topic2'; 
 subscribeToTopic(mqttTopic, (topic, message) => {
     console.log(`Received message from MQTT topic ${topic}:`, message);
     // Emit the MQTT message to Soketi
-    emitDataToSoketi('my-channel', 'message', { topic, message });
+    emitDataToSoketi('my-channel', 'change', { topic, message });
 });
 
 ensureTable('messages').then(() => {
