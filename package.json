@@ -1,0 +1,32 @@
+{
+    "name": "proxy-socket-server",
+    "version": "1.0.0",
+    "description": "A proxy socket server using Soketi, RethinkDB, and HiveMQ Pub/Sub.",
+    "main": "src/server.js",
+    "scripts": {
+      "start": "node src/server.js",
+      "dev": "nodemon src/server.js"
+    },
+    "dependencies": {
+      "@soketi/soketi": "^1.6.1",
+      "rethinkdb": "^2.4.2",
+      "pusher": "^5.2.0",
+      "mqtt": "^4.2.8",
+      "dotenv": "^16.0.3",
+      "pusher-js": "^8.0.2"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.22"
+    },
+    "engines": {
+      "node": ">=14.0.0"
+    },
+    "keywords": [
+      "soketi",
+      "rethinkdb",
+      "mqtt",
+      "pubsub",
+      "socket-server",
+      "hivemq"
+    ]
+  }
