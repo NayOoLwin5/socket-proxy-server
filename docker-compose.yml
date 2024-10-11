@@ -1,0 +1,53 @@
+networks:
+  default:
+    name: my_network
+
+services:
+  mqtt:
+    image: hivemq/hivemq4
+    ports:
+      - "1883:1883"
+      - "8080:8080"
+
+  rethinkdb:
+    image: rethinkdb:latest
+    ports:
+      - "28015:28015"
+      - "8082:8080"
+    volumes:
+      - rethinkdb_data:/data
+
+  soketi:
+    build:
+      context: .
+      dockerfile: Dockerfile.soketi
+    ports:
+      - "6001:6001"
+    environment:
+      - SOKETI_DEBUG=1
+      - SOKETI_DEFAULT_APP_ID=app-id
+      - SOKETI_DEFAULT_APP_KEY=app-key
+      - SOKETI_DEFAULT_APP_SECRET=app-secret
+    volumes:
+      - ./soketi_supervisord.conf:/etc/supervisor/conf.d/soketi_supervisord.conf
+
+  proxy_socket:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - RETHINKDB_HOST=rethinkdb
+      - RETHINKDB_PORT=28015
+      - RETHINKDB_DB=test
+      - HIVEMQ_BROKER=mqtt://broker.hivemq.com
+      - PUSHER_HOST=soketi
+      - PUSHER_PORT=6001
+      - PUSHER_KEY=myAppKey
+      - PUSHER_CLUSTER=mt1
+    depends_on:
+      - mqtt
+      - rethinkdb
+      - soketi
+
+volumes:
+  rethinkdb_data:

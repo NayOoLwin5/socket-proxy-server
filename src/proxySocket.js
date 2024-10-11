@@ -5,10 +5,10 @@ const { subscribeToTopic } = require('./pubsub');
 require('dotenv').config();
 
 const pusher = new Pusher({
-    appId: 'myAppId',
-    key: 'myAppKey',
-    secret: 'myAppSecret',
-    host: 'localhost',
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
+    host: process.env.PUSHER_HOST,
     port: process.env.PUSHER_PORT,
     encrypted: false,
     enabledTransports: ['ws']
@@ -30,7 +30,6 @@ const emitDataToSoketi = (channel, event, data) => {
 const mqttTopic = 'test/topic2'; 
 subscribeToTopic(mqttTopic, (topic, message) => {
     console.log(`Received message from MQTT topic ${topic}:`, message);
-    // Emit the MQTT message to Soketi
     emitDataToSoketi('my-channel', 'change', { topic, message });
 });
 

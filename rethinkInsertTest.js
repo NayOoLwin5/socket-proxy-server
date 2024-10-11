@@ -30,13 +30,13 @@ async function publishToMQTT() {
     return new Promise((resolve, reject) => {
         const mqttClient = mqtt.connect(process.env.HIVEMQ_BROKER);
 
-        mqttClient.on('connect', () => {
+    mqttClient.on('connect', () => {
             console.log('Connected to HiveMQ broker');
 
-            const topic = 'test/topic';
+            const topic = 'test/topic2';
             const message = JSON.stringify({
                 action: 'insert',
-                data: "publish mqtt"
+                data: 'publish mqtt'
             });
 
             mqttClient.publish(topic, message, (err) => {

@@ -1,0 +1,10 @@
+FROM quay.io/soketi/soketi:latest-16-alpine
+
+# Install Supervisord
+RUN apk add --no-cache supervisor
+
+# Copy Supervisord configuration
+COPY soketi_supervisord.conf /etc/supervisor/conf.d/soketi_supervisord.conf
+
+# Set the command to run Supervisord
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
